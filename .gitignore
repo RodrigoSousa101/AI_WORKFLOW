@@ -10,6 +10,8 @@
 *.dylib
 *.test
 *.out
+*.env
+
 
 # Diretórios comuns de build
 bin/
