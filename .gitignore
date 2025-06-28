@@ -1,0 +1,57 @@
+# ===================
+# Go (Golang)
+# ===================
+
+# Executáveis e testes
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Diretórios comuns de build
+bin/
+build/
+
+# Módulo Go cache
+vendor/
+Godeps/
+
+# Arquivos temporários
+*.log
+*.tmp
+
+# ===================
+# Docker
+# ===================
+
+# Volumes e arquivos temporários
+**/tmp/
+*.pid
+
+# ===================
+# VS Code
+# ===================
+
+.vscode/
+
+# ===================
+# Sistema
+# ===================
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===================
+# Git
+# ===================
+
+# Arquivos de conflito
+*.orig
