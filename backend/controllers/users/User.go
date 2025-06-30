@@ -1,11 +1,11 @@
-package controllers
+package users
 
 import (
-	"gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
-func UserRoutes(c *gin.Context) {
-	router := c.Group("/users")
+func UserRoutes(rg *gin.RouterGroup) {
+	router := rg.Group("/users")
 	{
 		router.POST("", CreateUser)
 	}

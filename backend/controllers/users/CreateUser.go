@@ -1,8 +1,10 @@
-package controllers
+package users
 
 import (
-	"AI_WORKFLOW/backend/models"
 	"net/http"
+	"time"
+
+	"github.com/RodrigoSousa101/ai_workflow/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -16,9 +18,9 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	User.ID = uuid.New().String()
-	User.CreatedAt = models.GetCurrentTime()
-	User.UpdatedAt = models.GetCurrentTime()
+	User.ID = uuid.New()
+	User.CreatedAt = time.Now()
+	User.UpdatedAt = time.Now()
 
 	db := c.MustGet("db").(*gorm.DB)
 	if err := db.Create(&User).Error; err != nil {
