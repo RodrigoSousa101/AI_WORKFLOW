@@ -45,7 +45,7 @@ func main() {
 	db.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
 
 	// Migrar várias tabelas de uma vez:
-	if err := db.AutoMigrate(&models.User{}, &models.Task{}); err != nil {
+	if err := db.AutoMigrate(&models.User{}, &models.Workflow{}, &models.Task{}); err != nil {
 		log.Fatal("Erro ao migrar tabelas:", err)
 	}
 

@@ -8,5 +8,8 @@ func UserRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("/users")
 	{
 		router.POST("", CreateUser)
+		router.GET("/:id", GetUser)
+		router.GET("", GetAllUsers)
+		router.PUT("/:id", UpdateUser)
 	}
 }

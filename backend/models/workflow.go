@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type workflow struct {
+type Workflow struct {
 	ID          uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key" json:"id"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
