@@ -11,5 +11,6 @@ func UserRoutes(rg *gin.RouterGroup) {
 		router.GET("/:id", GetUser)
 		router.GET("", GetAllUsers)
 		router.PUT("/:id", UpdateUser)
+		router.DELETE("/:id", DeleteUser)
 	}
 }
