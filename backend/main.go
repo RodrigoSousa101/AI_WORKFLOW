@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/RodrigoSousa101/ai_workflow/controllers/auth"
 	"github.com/RodrigoSousa101/ai_workflow/controllers/users"
 	"github.com/RodrigoSousa101/ai_workflow/models"
 
@@ -62,6 +63,7 @@ func main() {
 
 	// Agora as rotas de usuário ficam em /workflow/users
 	users.UserRoutes(workflowGroup)
+	auth.AuthRoutes(workflowGroup)
 
 	err = r.Run(":8080")
 	if err != nil {
