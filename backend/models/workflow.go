@@ -8,10 +8,11 @@ import (
 
 type Workflow struct {
 	ID          uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key" json:"id"`
+	UserID      uuid.UUID `gorm:"type:uuid;not null" json:"user_id"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Status      string    `json:"status" gorm:"default:'draft'"` // 'draft', 'active', 'archived'
-	Tasks       []Task    `gorm:"foreignKey:WorkflowID" json:"tasks"`
+	Workers     []User    `gorm:"many2many:workflow_users;" json:"workers"`
 	CreatedAt   time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt   time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }

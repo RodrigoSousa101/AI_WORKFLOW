@@ -29,6 +29,16 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	token, err := utils.CreateToken(existingUser)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create token"})
+		return
+	}
+
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", token, 86400, "/", "", false, true) // Secure flag set to true in production
+
 	existingUser.Password = "" // Clear password before sending response
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": existingUser})
+
+	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": existingUser, "token": token})
 }

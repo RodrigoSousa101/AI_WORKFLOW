@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/RodrigoSousa101/ai_workflow/controllers/auth"
 	"github.com/RodrigoSousa101/ai_workflow/controllers/users"
+	"github.com/RodrigoSousa101/ai_workflow/controllers/workflow"
+	"github.com/RodrigoSousa101/ai_workflow/middleware"
 	"github.com/RodrigoSousa101/ai_workflow/models"
 
 	"log"
@@ -55,15 +57,17 @@ func main() {
 		c.Set("db", db)
 		c.Next()
 	})
-	workflowGroup := r.Group("/workflow")
 
-	workflowGroup.GET("", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "Siga"})
-	})
+	workflowGroup := r.Group("/api")
 
 	// Agora as rotas de usuário ficam em /workflow/users
-	users.UserRoutes(workflowGroup)
+
 	auth.AuthRoutes(workflowGroup)
+	workflowGroup.Use(middleware.RequireAuth())
+	{
+		users.UserRoutes(workflowGroup)
+		workflow.UserRoutes(workflowGroup)
+	}
 
 	err = r.Run(":8080")
 	if err != nil {
