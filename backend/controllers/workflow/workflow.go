@@ -9,6 +9,8 @@ func UserRoutes(rg *gin.RouterGroup) {
 	{
 		router.POST("", CreateWorkflow)
 		router.GET("", GetAllWorkflows)
-
+		router.GET("/:id", GetWorkflow)
+		router.PUT("/:id", UpdateWorkflow)
+		router.DELETE("/:id", DeleteWorkflow)
 	}
 }

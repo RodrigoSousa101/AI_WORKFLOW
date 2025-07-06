@@ -17,6 +17,6 @@ func GetAllWorkflows(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"users": workflow})
+	c.JSON(http.StatusOK, gin.H{"Workflow": workflow})
 
 }

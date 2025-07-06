@@ -14,9 +14,9 @@ import (
 
 func CreateWorkflow(c *gin.Context) {
 
-	user, err := utils.GetUser(c)
+	Workflow, err := utils.GetUser(c)
 	if err != nil {
-		c.JSON(400, gin.H{"error": "User not found"})
+		c.JSON(400, gin.H{"error": "Workflow not found"})
 	}
 
 	var workflow models.Workflow
@@ -27,14 +27,14 @@ func CreateWorkflow(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
 	workflow.ID = uuid.New()
-	workflow.UserID = user.ID
+	workflow.UserID = Workflow.ID
 	workflow.CreatedAt = time.Now()
 	workflow.UpdatedAt = time.Now()
 
 	if err := db.Create(&workflow).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create workflow"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create Workflow"})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "workflow created successfully", "user": workflow})
+	c.JSON(http.StatusCreated, gin.H{"message": "workflow created successfully", "Workflow": workflow})
 }
