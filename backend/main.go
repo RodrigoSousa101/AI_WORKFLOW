@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/RodrigoSousa101/ai_workflow/controllers/auth"
+	"github.com/RodrigoSousa101/ai_workflow/controllers/task"
 	"github.com/RodrigoSousa101/ai_workflow/controllers/users"
 	"github.com/RodrigoSousa101/ai_workflow/controllers/workflow"
 	"github.com/RodrigoSousa101/ai_workflow/middleware"
@@ -67,6 +68,7 @@ func main() {
 	{
 		users.UserRoutes(workflowGroup)
 		workflow.UserRoutes(workflowGroup)
+		task.UserRoutes(workflowGroup)
 	}
 
 	err = r.Run(":8080")

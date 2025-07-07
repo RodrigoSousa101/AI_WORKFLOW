@@ -14,9 +14,9 @@ import (
 
 func CreateWorkflow(c *gin.Context) {
 
-	Workflow, err := utils.GetUser(c)
+	User, err := utils.GetUser(c)
 	if err != nil {
-		c.JSON(400, gin.H{"error": "Workflow not found"})
+		c.JSON(400, gin.H{"error": "User not found"})
 	}
 
 	var workflow models.Workflow
@@ -27,7 +27,7 @@ func CreateWorkflow(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
 	workflow.ID = uuid.New()
-	workflow.UserID = Workflow.ID
+	workflow.UserID = User.ID
 	workflow.CreatedAt = time.Now()
 	workflow.UpdatedAt = time.Now()
 

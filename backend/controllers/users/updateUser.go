@@ -25,10 +25,11 @@ func UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
 	}
-	User.UpdatedAt = time.Now()
+
 	if err := db.Model(&User).Where("id = ?", UserID).Updates(UserUpdate).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return
 	}
+	User.UpdatedAt = time.Now()
 	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully", "user": User})
 }

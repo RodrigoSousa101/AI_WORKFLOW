@@ -12,7 +12,7 @@ type Task struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Users       []User    `gorm:"many2many:task_users;"`
-	Status      string    `json:"status" gorm:"default:'pending'"` // 'pending', 'in_progress', 'completed', etc.
+	Status      string    `json:"status" gorm:"default:'pending'"`
 	Created_at  time.Time `json:"created_at" gorm:"autoCreateTime"`
 	Updated_at  time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }

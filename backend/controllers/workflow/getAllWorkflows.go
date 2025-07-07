@@ -17,6 +17,11 @@ func GetAllWorkflows(c *gin.Context) {
 		return
 	}
 
+	if len(workflow) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No workflows found"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"Workflow": workflow})
 
 }

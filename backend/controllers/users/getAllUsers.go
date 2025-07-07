@@ -18,5 +18,9 @@ func GetAllUsers(c *gin.Context) {
 		return
 	}
 
+	if len(users) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Users not found"})
+	}
+
 	c.JSON(http.StatusOK, gin.H{"users": users})
 }

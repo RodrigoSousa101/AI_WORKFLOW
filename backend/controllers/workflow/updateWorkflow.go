@@ -2,6 +2,7 @@ package workflow
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/RodrigoSousa101/ai_workflow/models"
 	"github.com/gin-gonic/gin"
@@ -28,7 +29,7 @@ func UpdateWorkflow(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update Workflow"})
 		return
 	}
-
+	existingWorkflow.UpdatedAt = time.Now()
 	c.JSON(http.StatusOK, gin.H{"message": "Workflow updated successfully", "Workflow": existingWorkflow})
 
 }
