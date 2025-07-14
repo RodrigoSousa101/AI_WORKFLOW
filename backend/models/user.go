@@ -16,7 +16,6 @@ type User struct {
 	Role        string         `json:"role" gorm:"default:'user'"`
 	Speciality  pq.StringArray `json:"speciality" gorm:"type:text[]"`
 	IsAvailable bool           `json:"is_available" gorm:"default:true"`
-	Workflows   []Workflow     `gorm:"many2many:workflow_users;constraint:OnDelete:CASCADE" json:"workflows"`
 	CreatedAt   time.Time      `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt   time.Time      `json:"updated_at" gorm:"autoUpdateTime"`
 }

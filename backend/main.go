@@ -49,6 +49,8 @@ func main() {
 	db.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
 
 	// Migrar várias tabelas de uma vez:
+	db.Migrator().DropTable(&models.Task{})
+	db.Migrator().DropTable(&models.Workflow{})
 	if err := db.AutoMigrate(&models.User{}, &models.Workflow{}, &models.Task{}); err != nil {
 		log.Fatal("Erro ao migrar tabelas:", err)
 	}
@@ -64,9 +66,10 @@ func main() {
 	// Agora as rotas de usuário ficam em /workflow/users
 
 	auth.AuthRoutes(workflowGroup)
+	users.UserRoutes(workflowGroup)
 	workflowGroup.Use(middleware.RequireAuth())
 	{
-		users.UserRoutes(workflowGroup)
+		//users.UserRoutes(workflowGroup)
 		workflow.UserRoutes(workflowGroup)
 		task.UserRoutes(workflowGroup)
 	}

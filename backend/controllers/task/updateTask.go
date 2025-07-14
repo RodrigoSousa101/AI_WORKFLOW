@@ -20,7 +20,7 @@ func UpdateTask(c *gin.Context) {
 		return
 	}
 
-	if err := db.Where("id = ?", taskID).First(&task).Error; err != nil {
+	if err := db.Where("id = ?", taskID).First(&existingTask).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error:": "Task not found"})
 		return
 	}
