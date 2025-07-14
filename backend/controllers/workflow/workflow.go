@@ -12,5 +12,6 @@ func UserRoutes(rg *gin.RouterGroup) {
 		router.GET("/:id", GetWorkflow)
 		router.PUT("/:id", UpdateWorkflow)
 		router.DELETE("/:id", DeleteWorkflow)
+		router.POST("/:id", AddWorkerToWorkflow)
 	}
 }

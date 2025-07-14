@@ -1,6 +1,8 @@
 package workflow
 
 import (
+	"net/http"
+
 	"github.com/RodrigoSousa101/ai_workflow/models"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -11,8 +13,8 @@ func GetWorkflow(c *gin.Context) {
 	var workflow models.Workflow
 	db := c.MustGet("db").(*gorm.DB)
 
-	if err := db.First(&workflow, "id = ?", WorkflowID).Error; err != nil {
-		c.JSON(404, gin.H{"error": "Workflow not found"})
+	if err := db.Preload("Workers").First(&workflow, "id = ?", WorkflowID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "workflow not found"})
 		return
 	}
 

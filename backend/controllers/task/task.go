@@ -12,5 +12,6 @@ func UserRoutes(rg *gin.RouterGroup) {
 		router.GET("/:id", GetTask)
 		router.PUT("/:id", UpdateTask)
 		router.DELETE("/:id", DeleteTask)
+		router.GET("/tasksbyworkflow/:workflow_id", GetTasksByWorkflow)
 	}
 }

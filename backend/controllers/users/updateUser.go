@@ -21,7 +21,7 @@ func UpdateUser(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
 
-	if err := db.First(&User, "id = ?", UserID).Error; err != nil {
+	if err := db.Where("id = ?", UserID).First(&User).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
 	}

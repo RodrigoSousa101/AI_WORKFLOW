@@ -12,7 +12,7 @@ func GetUser(c *gin.Context) {
 	userID := c.Param("id")
 
 	db := c.MustGet("db").(*gorm.DB)
-	if err := db.First(&User, "id = ?", userID).Error; err != nil {
+	if err := db.Where("id = ?", userID).First(&User).Error; err != nil {
 		c.JSON(404, gin.H{"error": "User not found"})
 		return
 	}

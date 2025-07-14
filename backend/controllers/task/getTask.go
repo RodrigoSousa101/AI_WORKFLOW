@@ -17,5 +17,5 @@ func GetTask(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found with this id"})
 	}
 
-	c.JSON(http.StatusFound, gin.H{"message": "Task found", "Task:": task})
+	c.JSON(http.StatusOK, gin.H{"message": "Task found", "Task": task})
 }

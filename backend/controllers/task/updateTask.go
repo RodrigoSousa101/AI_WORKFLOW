@@ -2,6 +2,7 @@ package task
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/RodrigoSousa101/ai_workflow/models"
 	"github.com/gin-gonic/gin"
@@ -29,5 +30,6 @@ func UpdateTask(c *gin.Context) {
 		return
 	}
 
+	existingTask.Updated_at = time.Now()
 	c.JSON(http.StatusOK, gin.H{"message:": "task updated sucessfuly", "Task:": existingTask})
 }
