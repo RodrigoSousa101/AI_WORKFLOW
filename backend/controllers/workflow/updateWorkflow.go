@@ -20,7 +20,7 @@ func UpdateWorkflow(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
 
-	if err := db.First(&existingWorkflow, "id = ?", WorkflowID).Error; err != nil {
+	if err := db.Where("id = ?", WorkflowID).First(&existingWorkflow).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Workflow not found"})
 		return
 	}

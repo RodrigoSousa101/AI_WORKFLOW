@@ -13,7 +13,7 @@ func GetWorkflow(c *gin.Context) {
 	var workflow models.Workflow
 	db := c.MustGet("db").(*gorm.DB)
 
-	if err := db.Preload("Workers").First(&workflow, "id = ?", WorkflowID).Error; err != nil {
+	if err := db.Where("id = ?", WorkflowID).First(&workflow).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "workflow not found"})
 		return
 	}

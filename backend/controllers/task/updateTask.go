@@ -12,7 +12,7 @@ import (
 func UpdateTask(c *gin.Context) {
 	var task models.Task
 	var existingTask models.Task
-	TaskID := c.Param("id")
+	taskID := c.Param("id")
 	db := c.MustGet("db").(*gorm.DB)
 
 	if err := c.ShouldBindJSON(&task); err != nil {
@@ -20,7 +20,7 @@ func UpdateTask(c *gin.Context) {
 		return
 	}
 
-	if err := db.First(&existingTask, "id = ?", TaskID).Error; err != nil {
+	if err := db.Where("id = ?", taskID).First(&task).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error:": "Task not found"})
 		return
 	}

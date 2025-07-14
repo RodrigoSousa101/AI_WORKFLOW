@@ -8,14 +8,14 @@ import (
 
 func DeleteTask(c *gin.Context) {
 	var task models.Task
-	TaskID := c.Param("id")
+	taskID := c.Param("id")
 	db := c.MustGet("db").(*gorm.DB)
 
-	if db.First(&task, "id = ?", TaskID).Error != nil {
+	if db.Where("id = ?", taskID).First(&task).Error != nil {
 		c.JSON(404, gin.H{"error": "Task not found"})
 		return
 	}
-	if err := db.Delete(&task, "id = ?", TaskID).Error; err != nil {
+	if err := db.Delete(&task, "id = ?", taskID).Error; err != nil {
 		c.JSON(500, gin.H{"error": "Failed to delete task"})
 		return
 	}

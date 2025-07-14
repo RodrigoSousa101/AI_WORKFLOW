@@ -10,7 +10,7 @@ func DeleteWorkflow(c *gin.Context) {
 	var Workflow models.Workflow
 	WorkflowID := c.Param("id")
 	db := c.MustGet("db").(*gorm.DB)
-	if db.First(&Workflow, "id = ?", WorkflowID).Error != nil {
+	if err := db.Where("id = ?", WorkflowID).First(&Workflow).Error; err != nil {
 		c.JSON(404, gin.H{"error": "Workflow not found"})
 		return
 	}
