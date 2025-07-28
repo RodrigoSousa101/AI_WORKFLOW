@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserRoutes(rg *gin.RouterGroup) {
+func TaskRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("/task")
 	{
 		router.POST("/:workflow_id", CreateTask)

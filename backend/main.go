@@ -3,8 +3,10 @@ package main
 import (
 	"github.com/RodrigoSousa101/ai_workflow/controllers/auth"
 	"github.com/RodrigoSousa101/ai_workflow/controllers/task"
+	"github.com/RodrigoSousa101/ai_workflow/controllers/taskuser"
 	"github.com/RodrigoSousa101/ai_workflow/controllers/users"
 	"github.com/RodrigoSousa101/ai_workflow/controllers/workflow"
+	"github.com/RodrigoSousa101/ai_workflow/controllers/workflowuser"
 	"github.com/RodrigoSousa101/ai_workflow/middleware"
 	"github.com/RodrigoSousa101/ai_workflow/models"
 
@@ -48,10 +50,7 @@ func main() {
 	log.Println("Conexão com o banco de dados bem-sucedida!")
 	db.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
 
-	// Migrar várias tabelas de uma vez:
-	db.Migrator().DropTable(&models.Task{})
-	db.Migrator().DropTable(&models.Workflow{})
-	if err := db.AutoMigrate(&models.User{}, &models.Workflow{}, &models.Task{}); err != nil {
+	if err := db.AutoMigrate(&models.User{}, &models.Workflow{}, &models.Task{}, &models.WorkflowUser{}, &models.TaskUser{}); err != nil {
 		log.Fatal("Erro ao migrar tabelas:", err)
 	}
 
@@ -70,8 +69,10 @@ func main() {
 	workflowGroup.Use(middleware.RequireAuth())
 	{
 		//users.UserRoutes(workflowGroup)
-		workflow.UserRoutes(workflowGroup)
-		task.UserRoutes(workflowGroup)
+		workflow.WorkflowRoutes(workflowGroup)
+		task.TaskRoutes(workflowGroup)
+		workflowuser.WorkflowUserRoutes(workflowGroup)
+		taskuser.TaskUserRoutes(workflowGroup)
 	}
 
 	err = r.Run(":8080")

@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserRoutes(rg *gin.RouterGroup) {
+func WorkflowRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("/workflow")
 	{
 		router.POST("", CreateWorkflow)

@@ -9,5 +9,9 @@ import (
 type WorkflowUser struct {
 	WorkflowID uuid.UUID `gorm:"primaryKey"`
 	UserID     uuid.UUID `gorm:"primaryKey"`
-	CreatedAt  time.Time
+
+	Workflow *Workflow `gorm:"constraint:OnDelete:CASCADE;" json:"-"`
+	User     *User     `gorm:"constraint:OnDelete:CASCADE;" json:"-"`
+
+	CreatedAt time.Time
 }
