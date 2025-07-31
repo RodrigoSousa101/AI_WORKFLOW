@@ -14,6 +14,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -55,6 +56,7 @@ func main() {
 	}
 
 	r := gin.Default()
+	r.Use(cors.Default())
 	r.Use(func(c *gin.Context) {
 		c.Set("db", db)
 		c.Next()

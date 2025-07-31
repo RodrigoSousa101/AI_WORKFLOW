@@ -1,15 +1,38 @@
-
 import { useState } from 'react';
 import './App.css'
 import { LuBrain, LuWorkflow } from "react-icons/lu";
 import { IoPeopleOutline } from "react-icons/io5";
 import { FiCheckCircle } from "react-icons/fi";
-
-
+import axios from 'axios';
 
 function App() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [mensagem, setMensagem] = useState('');
+  const [active, setactive] = useState('login');
 
-  const[active, setactive] = useState('login');
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/auth/login', {
+        email: email,
+        password: password,
+      });
+
+      console.log(response.data);
+      setMensagem('Login bem-sucedido!');
+      setError('');
+      localStorage.setItem('token', response.data.token);
+    } catch (err) {
+      console.error(err);
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || 'Erro ao fazer login');
+      } else {
+        setError('Erro ao fazer login');
+      }
+      setMensagem('');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100 flex flex-col justify-center items-center">
@@ -39,13 +62,32 @@ function App() {
         <p className='text-gray-700'>Sign in to your account to continue</p>
         <div className='mt-4'>
           <p>Email</p>
-          <input type="email" placeholder="Your@email.com" className=' mt-2 w-full h-10 rounded-lg border border-gray-400 p-4'></input>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Your@email.com"
+            className=' mt-2 w-full h-10 rounded-lg border border-gray-400 p-4'
+          />
         </div>
         <div className='mt-4'>
           <p>Password</p>
-          <input type="password" placeholder="Your password" className=' mt-2 w-full h-10 rounded-lg border border-gray-400 p-4'></input>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Your password"
+            className=' mt-2 w-full h-10 rounded-lg border border-gray-400 p-4'
+          />
         </div>
-        <button className='w-full h-10 mt-6 bg-black text-white rounded-lg cursor-pointer'>Sign In</button>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {mensagem && <p className="text-green-500 mt-2">{mensagem}</p>}
+        <button
+          className='w-full h-10 mt-6 bg-black text-white rounded-lg cursor-pointer'
+          onClick={handleLogin}
+        >
+          Sign In
+        </button>
       </div>
       <div className='flex items-center justify-center gap-20  mt-6'>
         <div className='flex flex-col items-center gap-2'> 
@@ -60,10 +102,9 @@ function App() {
            <FiCheckCircle size={35} className='text-indigo-600'></FiCheckCircle>
            <p className='text-gray-700 text-sm'>Automation</p>
         </div>
-       
-        </div>
+      </div>
     </div>
   )
-}
+};
 
-export default App
+export default App;
