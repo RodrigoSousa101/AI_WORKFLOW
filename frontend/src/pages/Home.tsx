@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Topbar from '../components/Topbar'
 
-const Home: React.FC = () => {
+const Home = () => {
     const navigate = useNavigate();  
     useEffect(() => {
     const token = localStorage.getItem('token');
@@ -11,7 +12,15 @@ const Home: React.FC = () => {
   }, [navigate]);
   
     return(
-        <div>a</div>
+     
+        <div>
+          <Topbar 
+            children={
+              <div> ola </div>
+            }
+            
+          />
+        </div>
     )
     
 }
