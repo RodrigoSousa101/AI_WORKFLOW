@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Topbar from '../components/Topbar';
 import { MdLogout } from "react-icons/md";
 import api, { logout } from '../utils/api';
+import WorkFlowCard from '../components/WorkFlowCard';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -55,6 +56,13 @@ const Home = () => {
           </>
         }
       />
+      <div className='px-40 flex flex-col mt-8'>
+        <p className='text-2xl font-bold'>My WorkFlows</p>
+        <p className='text-gray-700 mb-6'>Workflows you created and manage</p>
+
+        <WorkFlowCard />
+      </div>
+     
     </div>
   );
 };
