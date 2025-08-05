@@ -29,16 +29,35 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.CreateToken(existingUser)
+	accessToken, err := utils.CreateAccessToken(existingUser)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create token"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create access token"})
 		return
 	}
 
+	refreshToken, err := utils.CreateRefreshToken(existingUser)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create refresh token"})
+		return
+	}
+
+	// Enviar refresh token como cookie HttpOnly
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("Authorization", token, 86400, "/", "", false, true) // Secure flag set to true in production
+	c.SetCookie(
+		"refresh_token",
+		refreshToken,
+		60*60*24*7,
+		"/",
+		"",
+		false, // HTTP local, Secure false
+		true,  // HttpOnly
+	)
 
-	existingUser.Password = "" // Clear password before sending response
-
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": existingUser, "token": token})
+	// O access token vai no corpo da resposta
+	existingUser.Password = ""
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Login successful",
+		"user":    existingUser,
+		"access":  accessToken,
+	})
 }

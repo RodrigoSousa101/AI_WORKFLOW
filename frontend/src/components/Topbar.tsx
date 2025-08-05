@@ -6,7 +6,7 @@ type Props = {
 
 const Topbar = ({ children }: Props) => {
     return (
-        <div className="w-full h-16 flex items-center px-40 border border-gray-200">
+        <div className="w-full h-16 flex items-center justify-between px-40 border border-gray-200">
             {children}
         </div>
     )

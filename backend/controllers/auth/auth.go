@@ -8,5 +8,6 @@ func AuthRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("/auth")
 	{
 		router.POST("/login", Login)
+		router.POST("/refresh", Refresh)
 	}
 }

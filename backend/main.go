@@ -56,7 +56,14 @@ func main() {
 	}
 
 	r := gin.Default()
-	r.Use(cors.Default())
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:5173"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
+
 	r.Use(func(c *gin.Context) {
 		c.Set("db", db)
 		c.Next()
@@ -67,10 +74,9 @@ func main() {
 	// Agora as rotas de usuário ficam em /workflow/users
 
 	auth.AuthRoutes(workflowGroup)
-	users.UserRoutes(workflowGroup)
 	workflowGroup.Use(middleware.RequireAuth())
 	{
-		//users.UserRoutes(workflowGroup)
+		users.UserRoutes(workflowGroup)
 		workflow.WorkflowRoutes(workflowGroup)
 		task.TaskRoutes(workflowGroup)
 		workflowuser.WorkflowUserRoutes(workflowGroup)
