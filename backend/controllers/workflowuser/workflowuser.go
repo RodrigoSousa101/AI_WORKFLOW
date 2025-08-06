@@ -11,6 +11,7 @@ func WorkflowUserRoutes(rg *gin.RouterGroup) {
 		router.GET("", GetAllWorkflowUsers)
 		router.GET("/:workflow_id/:user_id", GetWorkflowUser)
 		router.GET("/:workflow_id", GetUsersByWorkflow)
+		router.GET("/:user_id", GetWorkflowByUsers)
 		router.DELETE("/:workflow_id/:user_id", RemoveUserFromWorkflow)
 	}
 }
