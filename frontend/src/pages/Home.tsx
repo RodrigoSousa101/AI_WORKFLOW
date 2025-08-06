@@ -4,12 +4,25 @@ import { useNavigate } from 'react-router-dom';
 import Topbar from '../components/Topbar';
 import { MdLogout } from "react-icons/md";
 import api, { logout } from '../utils/api';
-import WorkFlowCard from '../components/WorkFlowCard';
+import ManagerWorkFlowCard from '../components/Manager_WorkFlowCard';
+import { Carousel } from 'primereact/carousel';
+
+type Workflow = {
+  id: string;
+  name: string;
+  description: string;
+  status: string;
+};
+        
 
 const Home = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
+  const [userID, setUserID] = useState('');
+  const [workflowsCreated, setWorkflowsCreated] = useState<Workflow[]>([]);
+  const [workflowsWorker, setWorkflowsWorker] = useState<Workflow[]>([]);
+
 
   const handleLogout = () => {
     logout();
@@ -17,19 +30,38 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const response = await api.get('/users/current');
-        setUserName(response.data.user.name);
-        setUserEmail(response.data.user.email);
-      } catch (error) {
-        console.error('Erro ao buscar usuário atual:', error);
-        navigate('/'); // Redireciona para login se não autenticado
-      }
-    };
+  const fetchCurrentUserAndWorkflows = async () => {
+    try {
+      const response = await api.get('/users/current');
+      const user = response.data.user;
 
-    fetchCurrentUser();
-  }, [navigate]);
+      setUserName(user.name);
+      setUserEmail(user.email);
+      setUserID(user.id);
+
+      const wfResponse = await api.get(`/workflowuser/user/${user.id}`);
+      setWorkflowsCreated(wfResponse.data.WorkflowCreated);
+    setWorkflowsWorker(wfResponse.data["Workflows worker"]);
+      console.log('Workflows:', wfResponse.data);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+      navigate('/');
+    }
+  };
+
+  fetchCurrentUserAndWorkflows();
+}, [navigate]);
+
+const workflowTemplate = (workflow: Workflow) => (
+ 
+    <ManagerWorkFlowCard
+      key={workflow.id}
+      name={workflow.name}
+      description={workflow.description}
+      status={workflow.status}
+    />
+);
+
 
   return (
     <div>
@@ -56,11 +88,16 @@ const Home = () => {
           </>
         }
       />
-      <div className='px-40 flex flex-col mt-8'>
+      <div className='px-40 flex flex-col mt-8 '>
         <p className='text-2xl font-bold'>My WorkFlows</p>
         <p className='text-gray-700 mb-6'>Workflows you created and manage</p>
-
-        <WorkFlowCard />
+        <Carousel
+          value={workflowsCreated}
+          itemTemplate={workflowTemplate} 
+          numVisible={3}       
+          numScroll={1}        
+          className="custom-carousel"
+        />
       </div>
      
     </div>
