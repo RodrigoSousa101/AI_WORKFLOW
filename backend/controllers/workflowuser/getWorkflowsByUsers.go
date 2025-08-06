@@ -13,7 +13,19 @@ func GetWorkflowByUsers(c *gin.Context) {
 
 	userID := c.Param("user_id")
 	var workflowUser []models.WorkflowUser
+	var workflowCreated []models.Workflow
+
 	db := c.MustGet("db").(*gorm.DB)
+
+	if err := db.Where("user_id = ?", userID).Find(&workflowCreated).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "failed to retrieve workflows"})
+		return
+	}
+
+	if len(workflowCreated) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "no workflows found for this user"})
+		return
+	}
 
 	if err := db.Where("user_id = ?", userID).Find(&workflowUser).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "failed to retrieve workflowusers"})
@@ -31,10 +43,10 @@ func GetWorkflowByUsers(c *gin.Context) {
 		WorkFlowsID = append(WorkFlowsID, wu.WorkflowID)
 	}
 
-	var WorkFlows []models.Workflow
+	var WorkFlowsworker []models.Workflow
 
 	if len(WorkFlowsID) > 0 {
-		if err := db.Where("id IN ?", WorkFlowsID).Find(&WorkFlows).Error; err != nil {
+		if err := db.Where("id IN ?", WorkFlowsID).Find(&WorkFlowsworker).Error; err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": "failed to retrieve workflows"})
 		}
 
@@ -43,10 +55,10 @@ func GetWorkflowByUsers(c *gin.Context) {
 		return
 	}
 
-	if len(WorkFlows) == 0 {
+	if len(WorkFlowsworker) == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": " Workflows not found"})
 	}
 
-	c.JSON(http.StatusOK, gin.H{"Workflows": WorkFlows})
+	c.JSON(http.StatusOK, gin.H{"Workflowsworker": WorkFlowsworker, "WorkflowCreated": workflowCreated})
 
 }
